@@ -1,11 +1,11 @@
 import streamlit as st
 import random
-import urllib.parse # Gagamitin natin ito para i-format ang text para sa URL link
+import urllib.parse
 
 # 1. Page Configuration
 st.set_page_config(page_title="Movie Matchmaker", page_icon="🎬", layout="centered")
 
-# 2. Ang ating Database ng mga Palabas
+# 2. Ang ating MAS PINALAKING Database ng mga Palabas
 movies_database = {
     "Bakbakan / Action 💥": {
         "Movie (Mabilisan)": {
@@ -27,40 +27,80 @@ movies_database = {
             "Foreign (International)": ["Dahmer", "Hannibal", "Squid Game", "Alice in Borderland"]
         }
     },
+    "Thriller / Kaba 🤫": {
+        "Movie (Mabilisan)": {
+            "Local (Pinoy)": ["Arisaka", "Dead Kids", "Untrue", "Nuuk"],
+            "Foreign (International)": ["Get Out", "Prisoners", "Gone Girl", "A Quiet Place", "Parasite"]
+        },
+        "Series (Commitment)": {
+            "Local (Pinoy)": ["Linlang", "Lavender Fields"],
+            "Foreign (International)": ["You", "Mindhunter", "Stranger Things", "The Glory"]
+        }
+    },
+    "Sci-Fi / Science Fiction 🚀": {
+        "Movie (Mabilisan)": {
+            "Local (Pinoy)": ["Instalado", "Respeto"],
+            "Foreign (International)": ["Inception", "Interstellar", "The Matrix", "Dune", "Avatar"]
+        },
+        "Series (Commitment)": {
+            "Local (Pinoy)": ["Mystified"],
+            "Foreign (International)": ["Dark", "Black Mirror", "The 100", "Love, Death & Robots"]
+        }
+    },
+    "Sexy / Hubaran 🔥": {
+        "Movie (Mabilisan)": {
+            "Local (Pinoy)": ["Silip sa Apoy", "Scorpio Nights", "Taya", "Selina's Gold"],
+            "Foreign (International)": ["365 Days", "Fifty Shades of Grey", "The Voyeurs", "Wild Things"]
+        },
+        "Series (Commitment)": {
+            "Local (Pinoy)": ["Iskandalo", "High on Sex"],
+            "Foreign (International)": ["Sex/Life", "Bridgerton", "Elite", "Obsession"]
+        }
+    },
+    "Animated / Karton 🦄": {
+        "Movie (Mabilisan)": {
+            "Local (Pinoy)": ["Saving Sally", "Hayop Ka! The Nimfa Dimaano Story"],
+            "Foreign (International)": ["Spiderman: Into the Spider-Verse", "Shrek", "Howl's Moving Castle", "Inside Out", "Demon Slayer: Mugen Train"]
+        },
+        "Series (Commitment)": {
+            "Local (Pinoy)": ["Barangay 143"],
+            "Foreign (International)": ["Arcane", "Attack on Titan", "Cyberpunk: Edgerunners", "Rick and Morty"]
+        }
+    },
     "Mind-Blow / Patalasan ng Isip 🧠": {
         "Movie (Mabilisan)": {
-            "Local (Pinoy)": ["Honor Thy Father", "Fan Girl", "Goyo", "Kamera Obskura"],
-            "Foreign (International)": ["Inception", "Interstellar", "Shutter Island", "The Invisible Guest"]
+            "Local (Pinoy)": ["Honor Thy Father", "Fan Girl", "Goyo"],
+            "Foreign (International)": ["Shutter Island", "The Invisible Guest", "Memento", "The Prestige"]
         },
         "Series (Commitment)": {
             "Local (Pinoy)": ["Dirty Linen", "Senior High"],
-            "Foreign (International)": ["Dark", "Breaking Bad", "Sherlock", "Severance"]
+            "Foreign (International)": ["Breaking Bad", "Sherlock", "Severance", "Mr. Robot"]
         }
     },
     "Sawi / Hugot 💔": {
         "Movie (Mabilisan)": {
-            "Local (Pinoy)": ["Starting Over Again", "That Thing Called Tadhana", "The Hows of Us", "Sid & Aya"],
-            "Foreign (International)": ["500 Days of Summer", "La La Land", "Eternal Sunshine of the Spotless Mind", "Past Lives"]
+            "Local (Pinoy)": ["Starting Over Again", "That Thing Called Tadhana", "The Hows of Us"],
+            "Foreign (International)": ["500 Days of Summer", "La La Land", "Eternal Sunshine of the Spotless Mind"]
         },
         "Series (Commitment)": {
-            "Local (Pinoy)": ["On the Wings of Love", "Replacing Chef Chico", "Linlang"],
-            "Foreign (International)": ["Twenty-Five Twenty-One", "Crash Landing on You", "Normal People", "One Day"]
+            "Local (Pinoy)": ["Replacing Chef Chico"],
+            "Foreign (International)": ["Twenty-Five Twenty-One", "Crash Landing on You", "Normal People"]
         }
     },
     "Masaya / Good Vibes 😂": {
         "Movie (Mabilisan)": {
-            "Local (Pinoy)": ["Ang Tanging Ina", "Kimmy Dora", "Seven Sundays", "Sisterakas"],
-            "Foreign (International)": ["The Hangover", "White Chicks", "Superbad", "Free Guy"]
+            "Local (Pinoy)": ["Ang Tanging Ina", "Kimmy Dora", "Seven Sundays"],
+            "Foreign (International)": ["The Hangover", "White Chicks", "Superbad"]
         },
         "Series (Commitment)": {
-            "Local (Pinoy)": ["Pepito Manaloto", "Can't Buy Me Love", "Team A"],
+            "Local (Pinoy)": ["Pepito Manaloto"],
             "Foreign (International)": ["Friends", "The Office", "Modern Family", "Brooklyn Nine-Nine"]
         }
     },
     "Takot / Kilabot 👻": {
         "Movie (Mabilisan)": {
             "Local (Pinoy)": ["Feng Shui", "Sukob", "Seklusyon"],
-            "Foreign (International)": ["The Conjuring", "Hereditary", "Insidious", "A Quiet Place"]
+            "Foreign (International)": ["The Conjuring", "Hereditary", "Insidious"]
         },
         "Series (Commitment)": {
             "Local (Pinoy)": ["Simula sa Gitna"],
@@ -69,7 +109,7 @@ movies_database = {
     }
 }
 
-# Gagamit tayo ng Streamlit session state para matandaan ng system yung huling lumabas na movie kapag may na-click na ibang button.
+# Gagamit ng Streamlit session state para matandaan ang lumabas na movie
 if "final_recommendation" not in st.session_state:
     st.session_state.final_recommendation = None
 
@@ -105,34 +145,29 @@ if st.button("✨ HANAPAN MO AKO NG PAPANOORIN! ✨", use_container_width=True):
         st.session_state.final_recommendation = random.choice(choices)
     st.balloons()
 
-# Kung may napili nang movie, ipapakita natin ang resulta kasama ang mga MAGIC BUTTONS!
+# Kung may napili nang movie, ipapakita ang resulta kasama ang mga link buttons
 if st.session_state.final_recommendation:
     movie_name = st.session_state.final_recommendation
     
     st.success(f"### 🎉 Ang swak sa mood mo ngayon ay:")
     st.info(f"## 🏆 **{movie_name}**")
     
-    st.write("👉 **WHERE DO YOU WANNA WATCH? PICK A BUTTON BELOW👇:**")
+    st.write("👉 **Saan mo gustong panoorin? Pili ka sa buttons sa ibaba:**")
     
-    # Dito natin kino-convert ang pangalan ng palabas para maging clickable link (halimbawa: "John Wick" -> "John+Wick")
     encoded_movie = urllib.parse.quote_plus(movie_name)
     
-    # Gumawa ng 3 Columns para magkakatabi ang mga buttons
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        # Button 1: Automatic Google Search para makita kung saan streaming
         google_url = f"https://www.google.com/search?q=where+to+watch+{encoded_movie}"
-        st.link_button("🔍 nasaan ito streaming?", google_url, use_container_width=True)
+        st.link_button("🔍 Saan lilitaw?", google_url, use_container_width=True)
         
     with col2:
-        # Button 2: Diretso search sa loob ng Netflix web
         netflix_url = f"https://www.netflix.com/search?q={encoded_movie}"
-        st.link_button("❤️ I-Search sa Netflix", netflix_url, use_container_width=True)
+        st.link_button("❤️ Netflix Search", netflix_url, use_container_width=True)
         
     with col3:
-        # Button 3: Diretso search sa YouTube (para sa mga Pinoy movies/trailers)
         youtube_url = f"https://www.youtube.com/results?search_query={encoded_movie}+full+movie+or+trailer"
-        st.link_button("📺 I-Search sa YouTube", youtube_url, use_container_width=True)
+        st.link_button("📺 YouTube Search", youtube_url, use_container_width=True)
 
     st.write("\n_Ihanda mo na ang popcorn at pwesto sa kama! Enjoy watching! 🍿🥤_")
