@@ -5,8 +5,18 @@ import urllib.parse
 # 1. Page Configuration
 st.set_page_config(page_title="Movie Matchmaker", page_icon="🎬", layout="centered")
 
-# 2. Ang ating MAS PINALAKING Database ng mga Palabas
+# 2. Ang ating MAS PINALAKING Database (May mga dagdag na Cartoon movies!)
 movies_database = {
+    "Animated / Cartoon 🦄": {
+        "Movie (Mabilisan)": {
+            "Local (Pinoy)": ["Saving Sally", "Hayop Ka! The Nimfa Dimaano Story", "Urduja", "Dayo: Sa Mundo ng Elementalia"],
+            "Foreign (International)": ["Spiderman: Into the Spider-Verse", "Shrek", "Howl's Moving Castle", "Inside Out", "Demon Slayer: Mugen Train", "Toy Story", "The Lion King", "Kung Fu Panda", "Coco", "Frozen", "Despicable Me", "Ratatouille"]
+        },
+        "Series (Commitment)": {
+            "Local (Pinoy)": ["Barangay 143"],
+            "Foreign (International)": ["Arcane", "Attack on Titan", "Cyberpunk: Edgerunners", "Rick and Morty", "Avatar: The Last Airbender", "Ben 10"]
+        }
+    },
     "Bakbakan / Action 💥": {
         "Movie (Mabilisan)": {
             "Local (Pinoy)": ["BuyBust", "OTJ (On The Job)", "Maria", "AWOL"],
@@ -57,16 +67,6 @@ movies_database = {
             "Foreign (International)": ["Sex/Life", "Bridgerton", "Elite", "Obsession"]
         }
     },
-    "Animated / Karton 🦄": {
-        "Movie (Mabilisan)": {
-            "Local (Pinoy)": ["Saving Sally", "Hayop Ka! The Nimfa Dimaano Story"],
-            "Foreign (International)": ["Spiderman: Into the Spider-Verse", "Shrek", "Howl's Moving Castle", "Inside Out", "Demon Slayer: Mugen Train"]
-        },
-        "Series (Commitment)": {
-            "Local (Pinoy)": ["Barangay 143"],
-            "Foreign (International)": ["Arcane", "Attack on Titan", "Cyberpunk: Edgerunners", "Rick and Morty"]
-        }
-    },
     "Mind-Blow / Patalasan ng Isip 🧠": {
         "Movie (Mabilisan)": {
             "Local (Pinoy)": ["Honor Thy Father", "Fan Girl", "Goyo"],
@@ -109,7 +109,6 @@ movies_database = {
     }
 }
 
-# Gagamit ng Streamlit session state para matandaan ang lumabas na movie
 if "final_recommendation" not in st.session_state:
     st.session_state.final_recommendation = None
 
@@ -152,22 +151,36 @@ if st.session_state.final_recommendation:
     st.success(f"### 🎉 Ang swak sa mood mo ngayon ay:")
     st.info(f"## 🏆 **{movie_name}**")
     
-    st.write("👉 **Saan mo gustong panoorin? Pili ka sa buttons sa ibaba:**")
+    st.write("👉 **Pumili ng streaming platform sa ibaba para mapanood mo na agad:**")
     
-    encoded_movie = urllib.parse.quote_plus(movie_name)
+    # Gagamit tayo ng hyphen-separated format (halimbawa: "john-wick") para sa ilang search URLs, at regular encoding sa iba.
+    encoded_movie_query = urllib.parse.quote_plus(movie_name)
+    encoded_movie_hyphen = movie_name.lower().replace(" ", "-").replace(":", "").replace("'", "")
     
+    # Unang Row ng Buttons: Mainstream & Official Platforms
+    st.write("### 🔑 Official Platforms / Search")
     col1, col2, col3 = st.columns(3)
-    
     with col1:
-        google_url = f"https://www.google.com/search?q=where+to+watch+{encoded_movie}"
-        st.link_button("🔍 Saan lilitaw?", google_url, use_container_width=True)
-        
+        google_url = f"https://www.google.com/search?q=where+to+watch+{encoded_movie_query}"
+        st.link_button("🔍 Saan lilitaw? (Google)", google_url, use_container_width=True)
     with col2:
-        netflix_url = f"https://www.netflix.com/search?q={encoded_movie}"
+        netflix_url = f"https://www.netflix.com/search?q={encoded_movie_query}"
         st.link_button("❤️ Netflix Search", netflix_url, use_container_width=True)
-        
     with col3:
-        youtube_url = f"https://www.youtube.com/results?search_query={encoded_movie}+full+movie+or+trailer"
+        youtube_url = f"https://www.youtube.com/results?search_query={encoded_movie_query}+full+movie"
         st.link_button("📺 YouTube Search", youtube_url, use_container_width=True)
+        
+    st.write("### 🏴‍☠️ Alternative Streaming Sites (Free)")
+    # Pangalawang Row ng Buttons: 'Yung mga hiningi mo, bes!
+    col4, col5, col6 = st.columns(3)
+    with col4:
+        sflix_url = f"https://sflix.to/search/{encoded_movie_hyphen}"
+        st.link_button("🚀 Panoorin sa Sflix", sflix_url, use_container_width=True)
+    with col5:
+        bflix_url = f"https://bflix.to/search?keyword={encoded_movie_query}"
+        st.link_button("⭐ Panoorin sa Bflix", bflix_url, use_container_width=True)
+    with col6:
+        dopebox_url = f"https://dopebox.to/search/{encoded_movie_hyphen}"
+        st.link_button("🔥 Panoorin sa Dopebox", dopebox_url, use_container_width=True)
 
     st.write("\n_Ihanda mo na ang popcorn at pwesto sa kama! Enjoy watching! 🍿🥤_")
