@@ -173,14 +173,8 @@ if st.session_state.final_recommendation:
     st.write("### 🏴‍☠️ Alternative Streaming Sites (Free)")
     # Pangalawang Row ng Buttons: 'Yung mga hiningi mo, bes!
     col4, col5, col6 = st.columns(3)
-    with col4:
-        sflix_url = f"https://sflix.to/search/{encoded_movie_hyphen}"
-        st.link_button("🚀 Panoorin sa Sflix", sflix_url, use_container_width=True)
     with col5:
-        bflix_url = f"https://bflix.to/search?keyword={encoded_movie_query}"
+        bflix_url = f"https://ww4.live/bflix/search?keyword={encoded_movie_query}"
         st.link_button("⭐ Panoorin sa Bflix", bflix_url, use_container_width=True)
-    with col6:
-        dopebox_url = f"https://dopebox.to/search/{encoded_movie_hyphen}"
-        st.link_button("🔥 Panoorin sa Dopebox", dopebox_url, use_container_width=True)
 
     st.write("\n_Ihanda mo na ang popcorn at pwesto sa kama! Enjoy watching! 🍿🥤_")
