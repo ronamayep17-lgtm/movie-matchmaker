@@ -174,7 +174,8 @@ if st.session_state.final_recommendation:
     # Pangalawang Row ng Buttons: 'Yung mga hiningi mo, bes!
     col4, col5, col6 = st.columns(3)
     with col5:
-        bflix_url = f"https://www.google.com/search?q=site:ww4.live/bflix+{encoded_movie_query}"
+        # Hahanapin ni Google ang movie sa kahit anong gumaganang Bflix site sa internet!
+        bflix_url = f"https://www.google.com/search?q={encoded_movie_query}+watch+on+bflix"
         st.link_button("⭐ Panoorin sa Bflix", bflix_url, use_container_width=True)
 
     st.write("\n_Ihanda mo na ang popcorn at pwesto sa kama! Enjoy watching! 🍿🥤_")
