@@ -5,7 +5,7 @@ import urllib.parse
 # 1. Page Configuration
 st.set_page_config(page_title="Movie Matchmaker", page_icon="🎬", layout="centered")
 
-# 2. Pinatinding Database (May mga hinalong sikat na palabas mula sa Bflix!)
+# 2. Ang Mas Pinahabang Database (Malinis at walang sumasablay na link!)
 movies_database = {
     "Animated / Cartoon 🦄": {
         "Movie (Mabilisan)": {
@@ -214,28 +214,20 @@ if st.session_state.final_recommendation:
     st.success(f"### 🎉 Ang swak sa mood mo ngayon ay:")
     st.info(f"## 🏆 **{movie_name}**")
     
-    st.write("👉 **Pumili ng streaming platform sa ibaba para mapanood mo na agad:**")
+    st.write("👉 **Pumili ng platform sa ibaba para hanapin at mapanood ang palabas:**")
     
-    encoded_movie_query = urllib.parse.quote(movie_name)
-    encoded_movie_hyphen = movie_name.lower().replace(" ", "-").replace(":", "").replace("'", "")
+    # Gagamit ng pinaka-stable na URL encoding para sa tatlong pangunahing platform
+    encoded_movie_query = urllib.parse.quote_plus(movie_name)
     
-    st.write("### 🔑 Official Platforms / Search")
     col1, col2, col3 = st.columns(3)
     with col1:
-        google_url = f"https://www.google.com/search?q=where+to+watch+{urllib.parse.quote_plus(movie_name)}"
+        google_url = f"https://www.google.com/search?q=where+to+watch+{encoded_movie_query}"
         st.link_button("🔍 Saan lilitaw? (Google)", google_url, use_container_width=True)
     with col2:
-        netflix_url = f"https://www.netflix.com/search?q={urllib.parse.quote_plus(movie_name)}"
+        netflix_url = f"https://www.netflix.com/search?q={encoded_movie_query}"
         st.link_button("❤️ Netflix Search", netflix_url, use_container_width=True)
     with col3:
-        youtube_url = f"https://www.youtube.com/results?search_query={urllib.parse.quote_plus(movie_name)}+full+movie"
+        youtube_url = f"https://www.youtube.com/results?search_query={encoded_movie_query}+full+movie"
         st.link_button("📺 YouTube Search", youtube_url, use_container_width=True)
-        
-    st.write("### 🏴‍☠️ Alternative Streaming Sites (Free)")
-    col4, col5, col6 = st.columns(3)
-    with col5:
-        # Gagamit ng bagong link structure na nadiskubre mo para gumana ang keyword search!
-        bflix_url = f"https://ww4.live/bflix/search?keyword={encoded_movie_query}"
-        st.link_button("⭐ Panoorin sa Bflix", bflix_url, use_container_width=True)
 
     st.write("\n_Ihanda mo na ang popcorn at pwesto sa kama! Enjoy watching! 🍿🥤_")
