@@ -5,106 +5,169 @@ import urllib.parse
 # 1. Page Configuration
 st.set_page_config(page_title="Movie Matchmaker", page_icon="🎬", layout="centered")
 
-# 2. Ang ating MAS PINALAKING Database (May mga dagdag na Cartoon movies!)
+# 2. Pinatinding Database (May mga hinalong sikat na palabas mula sa Bflix!)
 movies_database = {
     "Animated / Cartoon 🦄": {
         "Movie (Mabilisan)": {
             "Local (Pinoy)": ["Saving Sally", "Hayop Ka! The Nimfa Dimaano Story", "Urduja", "Dayo: Sa Mundo ng Elementalia"],
-            "Foreign (International)": ["Spiderman: Into the Spider-Verse", "Shrek", "Howl's Moving Castle", "Inside Out", "Demon Slayer: Mugen Train", "Toy Story", "The Lion King", "Kung Fu Panda", "Coco", "Frozen", "Despicable Me", "Ratatouille"]
+            "Foreign (International)": [
+                "Spiderman: Into the Spider-Verse", "Shrek", "Howl's Moving Castle", "Inside Out 2", 
+                "Demon Slayer: Mugen Train", "Toy Story", "The Lion King", "Kung Fu Panda", 
+                "Coco", "Frozen", "Despicable Me", "Ratatouille", "Moana", "Zootopia", 
+                "Puss in Boots: The Last Wish", "The Super Mario Bros. Movie", "Nimona", "Soul"
+            ]
         },
         "Series (Commitment)": {
             "Local (Pinoy)": ["Barangay 143"],
-            "Foreign (International)": ["Arcane", "Attack on Titan", "Cyberpunk: Edgerunners", "Rick and Morty", "Avatar: The Last Airbender", "Ben 10"]
+            "Foreign (International)": [
+                "Arcane", "Attack on Titan", "Cyberpunk: Edgerunners", "Rick and Morty", 
+                "Avatar: The Last Airbender", "Ben 10", "Jujutsu Kaisen", "Demon Slayer", 
+                "Invincible", "Castlevania", "The Legend of Vox Machina", "Blue Eye Samurai"
+            ]
         }
     },
     "Bakbakan / Action 💥": {
         "Movie (Mabilisan)": {
             "Local (Pinoy)": ["BuyBust", "OTJ (On The Job)", "Maria", "AWOL"],
-            "Foreign (International)": ["John Wick", "Mad Max: Fury Road", "Extraction", "The Raid"]
+            "Foreign (International)": [
+                "John Wick", "Mad Max: Fury Road", "Extraction", "The Raid", "Top Gun: Maverick", 
+                "Gladiator", "The Batman", "Nobody", "Bullet Train", "The Gray Man", "Deadpool"
+            ]
         },
         "Series (Commitment)": {
             "Local (Pinoy)": ["FPJ's Ang Probinsyano", "The Iron Heart", "Black Rider"],
-            "Foreign (International)": ["Daredevil", "The Punisher", "Reacher", "Gangs of London"]
+            "Foreign (International)": [
+                "Daredevil", "The Punisher", "Reacher", "Gangs of London", "The Boys", 
+                "Loki", "The Terminal List", "Warrior", "Peaky Blinders"
+            ]
         }
     },
     "Patayan / Brutal 🩸": {
         "Movie (Mabilisan)": {
             "Local (Pinoy)": ["Bliss", "Eerie", "Kampon", "In My Mother's Skin"],
-            "Foreign (International)": ["Saw", "The Texas Chainsaw Massacre", "Kill Bill", "Terrifier"]
+            "Foreign (International)": [
+                "Saw", "The Texas Chainsaw Massacre", "Kill Bill", "Terrifier", "Hostel", 
+                "The Sadness", "Project Wolf Hunting", "Evil Dead Rise", "Midsommar"
+            ]
         },
         "Series (Commitment)": {
             "Local (Pinoy)": ["Cattleya Killer"],
-            "Foreign (International)": ["Dahmer", "Hannibal", "Squid Game", "Alice in Borderland"]
+            "Foreign (International)": [
+                "Dahmer", "Hannibal", "Squid Game", "Alice in Borderland", "Dexter", 
+                "The Walking Dead", "Gannibal", "Chucky"
+            ]
         }
     },
     "Thriller / Kaba 🤫": {
         "Movie (Mabilisan)": {
             "Local (Pinoy)": ["Arisaka", "Dead Kids", "Untrue", "Nuuk"],
-            "Foreign (International)": ["Get Out", "Prisoners", "Gone Girl", "A Quiet Place", "Parasite"]
+            "Foreign (International)": [
+                "Get Out", "Prisoners", "Gone Girl", "A Quiet Place", "Parasite", 
+                "The Invisible Man", "Leave the World Behind", "Nightcrawler", "Shutter Island"
+            ]
         },
         "Series (Commitment)": {
             "Local (Pinoy)": ["Linlang", "Lavender Fields"],
-            "Foreign (International)": ["You", "Mindhunter", "Stranger Things", "The Glory"]
+            "Foreign (International)": [
+                "You", "Mindhunter", "Stranger Things", "The Glory", "The Last of Us", 
+                "Presumed Innocent", "Black Mirror", "Severance"
+            ]
         }
     },
     "Sci-Fi / Science Fiction 🚀": {
         "Movie (Mabilisan)": {
             "Local (Pinoy)": ["Instalado", "Respeto"],
-            "Foreign (International)": ["Inception", "Interstellar", "The Matrix", "Dune", "Avatar"]
+            "Foreign (International)": [
+                "Inception", "Interstellar", "The Matrix", "Dune: Part Two", "Avatar: The Way of Water", 
+                "Blade Runner 2049", "Tenet", "Everything Everywhere All at Once", "The Creator", "Prey"
+            ]
         },
         "Series (Commitment)": {
             "Local (Pinoy)": ["Mystified"],
-            "Foreign (International)": ["Dark", "Black Mirror", "The 100", "Love, Death & Robots"]
+            "Foreign (International)": [
+                "Dark", "Black Mirror", "The 100", "Love, Death & Robots", "Fallout", 
+                "3 Body Problem", "The Mandalorian", "Foundation", "Silo"
+            ]
         }
     },
     "Sexy / Hubaran 🔥": {
         "Movie (Mabilisan)": {
             "Local (Pinoy)": ["Silip sa Apoy", "Scorpio Nights", "Taya", "Selina's Gold"],
-            "Foreign (International)": ["365 Days", "Fifty Shades of Grey", "The Voyeurs", "Wild Things"]
+            "Foreign (International)": [
+                "365 Days", "Fifty Shades of Grey", "The Voyeurs", "Wild Things", "Basic Instinct", 
+                "The Wolf of Wall Street", "Chloe", "Deep Water", "No Hard Feelings"
+            ]
         },
         "Series (Commitment)": {
             "Local (Pinoy)": ["Iskandalo", "High on Sex"],
-            "Foreign (International)": ["Sex/Life", "Bridgerton", "Elite", "Obsession"]
+            "Foreign (International)": [
+                "Sex/Life", "Bridgerton", "Elite", "Obsession", "The Idol", 
+                "Euphoria", "Game of Thrones", "Spartacus"
+            ]
         }
     },
     "Mind-Blow / Patalasan ng Isip 🧠": {
         "Movie (Mabilisan)": {
             "Local (Pinoy)": ["Honor Thy Father", "Fan Girl", "Goyo"],
-            "Foreign (International)": ["Shutter Island", "The Invisible Guest", "Memento", "The Prestige"]
+            "Foreign (International)": [
+                "Shutter Island", "The Invisible Guest", "Memento", "The Prestige", 
+                "The Usual Suspects", "Fight Club", "Knives Out", "Glass Onion"
+            ]
         },
         "Series (Commitment)": {
             "Local (Pinoy)": ["Dirty Linen", "Senior High"],
-            "Foreign (International)": ["Breaking Bad", "Sherlock", "Severance", "Mr. Robot"]
+            "Foreign (International)": [
+                "Breaking Bad", "Sherlock", "Severance", "Mr. Robot", "Better Call Saul", 
+                "True Detective", "Succession"
+            ]
         }
     },
     "Sawi / Hugot 💔": {
         "Movie (Mabilisan)": {
             "Local (Pinoy)": ["Starting Over Again", "That Thing Called Tadhana", "The Hows of Us"],
-            "Foreign (International)": ["500 Days of Summer", "La La Land", "Eternal Sunshine of the Spotless Mind"]
+            "Foreign (International)": [
+                "500 Days of Summer", "La La Land", "Eternal Sunshine of the Spotless Mind", 
+                "Past Lives", "The Fault in Our Stars", "A Star Is Born", "About Time"
+            ]
         },
         "Series (Commitment)": {
             "Local (Pinoy)": ["Replacing Chef Chico"],
-            "Foreign (International)": ["Twenty-Five Twenty-One", "Crash Landing on You", "Normal People"]
+            "Foreign (International)": [
+                "Twenty-Five Twenty-One", "Crash Landing on You", "Normal People", 
+                "One Day", "Fleabag", "Queen of Tears"
+            ]
         }
     },
     "Masaya / Good Vibes 😂": {
         "Movie (Mabilisan)": {
             "Local (Pinoy)": ["Ang Tanging Ina", "Kimmy Dora", "Seven Sundays"],
-            "Foreign (International)": ["The Hangover", "White Chicks", "Superbad"]
+            "Foreign (International)": [
+                "The Hangover", "White Chicks", "Superbad", "Free Guy", "Barbie", 
+                "Red Notice", "We're the Millers", "Central Intelligence"
+            ]
         },
         "Series (Commitment)": {
             "Local (Pinoy)": ["Pepito Manaloto"],
-            "Foreign (International)": ["Friends", "The Office", "Modern Family", "Brooklyn Nine-Nine"]
+            "Foreign (International)": [
+                "Friends", "The Office", "Modern Family", "Brooklyn Nine-Nine", 
+                "Ted Lasso", "The Bear", "Abbott Elementary", "Young Sheldon"
+            ]
         }
     },
     "Takot / Kilabot 👻": {
         "Movie (Mabilisan)": {
             "Local (Pinoy)": ["Feng Shui", "Sukob", "Seklusyon"],
-            "Foreign (International)": ["The Conjuring", "Hereditary", "Insidious"]
+            "Foreign (International)": [
+                "The Conjuring", "Hereditary", "Insidious", "Talk to Me", "Smile", 
+                "The Nun", "A Nightmare on Elm Street", "Barbarian", "Late Night with the Devil"
+            ]
         },
         "Series (Commitment)": {
             "Local (Pinoy)": ["Simula sa Gitna"],
-            "Foreign (International)": ["The Haunting of Hill House", "Stranger Things", "All of Us Are Dead"]
+            "Foreign (International)": [
+                "The Haunting of Hill House", "Stranger Things", "All of Us Are Dead", 
+                "Midnight Mass", "From", "The Fall of the House of Usher"
+            ]
         }
     }
 }
@@ -153,29 +216,26 @@ if st.session_state.final_recommendation:
     
     st.write("👉 **Pumili ng streaming platform sa ibaba para mapanood mo na agad:**")
     
-    # Gagamit tayo ng hyphen-separated format (halimbawa: "john-wick") para sa ilang search URLs, at regular encoding sa iba.
-    encoded_movie_query = urllib.parse.quote_plus(movie_name)
+    encoded_movie_query = urllib.parse.quote(movie_name)
     encoded_movie_hyphen = movie_name.lower().replace(" ", "-").replace(":", "").replace("'", "")
     
-    # Unang Row ng Buttons: Mainstream & Official Platforms
     st.write("### 🔑 Official Platforms / Search")
     col1, col2, col3 = st.columns(3)
     with col1:
-        google_url = f"https://www.google.com/search?q=where+to+watch+{encoded_movie_query}"
+        google_url = f"https://www.google.com/search?q=where+to+watch+{urllib.parse.quote_plus(movie_name)}"
         st.link_button("🔍 Saan lilitaw? (Google)", google_url, use_container_width=True)
     with col2:
-        netflix_url = f"https://www.netflix.com/search?q={encoded_movie_query}"
+        netflix_url = f"https://www.netflix.com/search?q={urllib.parse.quote_plus(movie_name)}"
         st.link_button("❤️ Netflix Search", netflix_url, use_container_width=True)
     with col3:
-        youtube_url = f"https://www.youtube.com/results?search_query={encoded_movie_query}+full+movie"
+        youtube_url = f"https://www.youtube.com/results?search_query={urllib.parse.quote_plus(movie_name)}+full+movie"
         st.link_button("📺 YouTube Search", youtube_url, use_container_width=True)
         
     st.write("### 🏴‍☠️ Alternative Streaming Sites (Free)")
-    # Pangalawang Row ng Buttons: 'Yung mga hiningi mo, bes!
     col4, col5, col6 = st.columns(3)
     with col5:
-        # Hahanapin ni Google ang movie sa kahit anong gumaganang Bflix site sa internet!
-        bflix_url = f"https://www.google.com/search?q={encoded_movie_query}+watch+on+bflix"
+        # Gagamit ng bagong link structure na nadiskubre mo para gumana ang keyword search!
+        bflix_url = f"https://ww4.live/bflix/search?keyword={encoded_movie_query}"
         st.link_button("⭐ Panoorin sa Bflix", bflix_url, use_container_width=True)
 
     st.write("\n_Ihanda mo na ang popcorn at pwesto sa kama! Enjoy watching! 🍿🥤_")
